@@ -336,7 +336,7 @@ class Tempest(object):
         LOG.info(_("Tempest config file: %s") % self.config_file)
 
         test_cmd = (
-            "%(venv)s testr run --parallel --subunit %(arg)s "
+            "%(venv)s testr run --subunit %(arg)s "
             "| tee %(log_file)s "
             "| %(venv)s subunit-2to1 "
             "| %(venv)s %(tempest_path)s/tools/colorizer.py" %
