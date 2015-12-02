@@ -1,4 +1,4 @@
-{% set image_name = "^cirros.*uec$" %}
+{% set image_name = "^CirrOS\s\S*$" %}
 {% set smoke = 0 %}
 
 ---
@@ -9,7 +9,7 @@
       runner:
         type: "constant"
         times: {{smoke or 40}}
-        concurrency: {{smoke or 20}}
+        concurrency: 1 #{{smoke or 20}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -31,7 +31,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20 }}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -51,7 +51,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20 }}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -70,7 +70,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20 }}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -90,7 +90,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20 }}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -102,25 +102,25 @@
         failure_rate:
           max: 20
 
-  NeutronNetworks.create_and_list_floating_ips:
-    -
-      args:
-        floating_network: "public"
-        floating_ip_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 40}}
-        concurrency: {{smoke or 20}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        quotas:
-          neutron:
-             floatingip: -1
-      sla:
-        failure_rate:
-          max: 0
+#  NeutronNetworks.create_and_list_floating_ips:
+#    -
+#      args:
+#        floating_network: "public"
+#        floating_ip_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 40}}
+#        concurrency: {{smoke or 20}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        quotas:
+#          neutron:
+#             floatingip: -1
+#      sla:
+#        failure_rate:
+#          max: 0
 
   NeutronNetworks.create_and_list_routers:
     -
@@ -133,7 +133,7 @@
       runner:
         type: "constant"
         times: {{smoke or 15}}
-        concurrency: {{smoke or 5}}
+        concurrency: 1 #{{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -156,7 +156,7 @@
       runner:
         type: "constant"
         times: {{smoke or 15}}
-        concurrency: {{smoke or 5}}
+        concurrency: 1 #{{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -171,207 +171,207 @@
         failure_rate:
           max: 20
 
-  NeutronLoadbalancerV1.create_and_list_pools:
-    -
-      args:
-        pool_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 3}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-        lbaas:
-          pool: {}
-          lbaas_version: 1
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_delete_pools:
-    -
-      args:
-        pool_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 3}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_update_pools:
-    -
-      args:
-        pool_create_args: {}
-        pool_update_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 3}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_list_vips:
-    -
-      args:
-        vip_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 4}}
-        network: {}
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-            vip: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_delete_vips:
-    -
-      args:
-        pool_create_args: {}
-        vip_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-            vip: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_update_vips:
-    -
-      args:
-        vip_create_args: {}
-        vip_update_args: {}
-        pool_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-        quotas:
-          neutron:
-            network: -1
-            subnet: -1
-            pool: -1
-            vip: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_list_healthmonitors:
-    -
-      args:
-        healthmonitor_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        quotas:
-          neutron:
-            health_monitor: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_delete_healthmonitors:
-    -
-      args:
-        healthmonitor_create_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        quotas:
-          neutron:
-            health_monitor: -1
-      sla:
-        failure_rate:
-          max: 0
-
-  NeutronLoadbalancerV1.create_and_update_healthmonitors:
-    -
-      args:
-        healthmonitor_create_args: {}
-        healthmonitor_update_args:
-          admin_state_up: False
-      runner:
-        type: "constant"
-        times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        quotas:
-          neutron:
-            health_monitor: -1
-      sla:
-        failure_rate:
-          max: 0
-
+#  NeutronLoadbalancerV1.create_and_list_pools:
+#    -
+#      args:
+#        pool_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 3}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#        lbaas:
+#          pool: {}
+#          lbaas_version: 1
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_delete_pools:
+#    -
+#      args:
+#        pool_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 3}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_update_pools:
+#    -
+#      args:
+#        pool_create_args: {}
+#        pool_update_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 3}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_list_vips:
+#    -
+#      args:
+#        vip_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 4}}
+#        network: {}
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#            vip: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_delete_vips:
+#    -
+#      args:
+#        pool_create_args: {}
+#        vip_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#            vip: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_update_vips:
+#    -
+#      args:
+#        vip_create_args: {}
+#        vip_update_args: {}
+#        pool_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#        quotas:
+#          neutron:
+#            network: -1
+#            subnet: -1
+#            pool: -1
+#            vip: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_list_healthmonitors:
+#    -
+#      args:
+#        healthmonitor_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        quotas:
+#          neutron:
+#            health_monitor: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_delete_healthmonitors:
+#    -
+#      args:
+#        healthmonitor_create_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        quotas:
+#          neutron:
+#            health_monitor: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
+#  NeutronLoadbalancerV1.create_and_update_healthmonitors:
+#    -
+#      args:
+#        healthmonitor_create_args: {}
+#        healthmonitor_update_args:
+#          admin_state_up: False
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 20}}
+#        concurrency: {{smoke or 10}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        quotas:
+#          neutron:
+#            health_monitor: -1
+#      sla:
+#        failure_rate:
+#          max: 0
+#
   NeutronNetworks.create_and_update_networks:
     -
       args:
@@ -382,7 +382,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -407,7 +407,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -434,7 +434,7 @@
       runner:
         type: "constant"
         times: {{smoke or 15}}
-        concurrency: {{smoke or 5}}
+        concurrency: 1 #{{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -462,7 +462,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -482,7 +482,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -505,7 +505,7 @@
       runner:
         type: "constant"
         times: {{smoke or 20}}
-        concurrency: {{smoke or 10}}
+        concurrency: 1 #{{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -518,25 +518,25 @@
         failure_rate:
           max: 20
 
-  NeutronNetworks.create_and_delete_floating_ips:
-    -
-      args:
-        floating_network: "public"
-        floating_ip_args: {}
-      runner:
-        type: "constant"
-        times: {{smoke or 40}}
-        concurrency: {{smoke or 20}}
-      context:
-        users:
-          tenants: {{smoke or 5}}
-          users_per_tenant: {{smoke or 2}}
-        quotas:
-          neutron:
-             floatingip: -1
-      sla:
-        failure_rate:
-          max: 0
+#  NeutronNetworks.create_and_delete_floating_ips:
+#    -
+#      args:
+#        floating_network: "public"
+#        floating_ip_args: {}
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 40}}
+#        concurrency: {{smoke or 20}}
+#      context:
+#        users:
+#          tenants: {{smoke or 5}}
+#          users_per_tenant: {{smoke or 2}}
+#        quotas:
+#          neutron:
+#             floatingip: -1
+#      sla:
+#        failure_rate:
+#          max: 0
 
   NeutronNetworks.create_and_delete_routers:
     -
@@ -549,7 +549,7 @@
       runner:
         type: "constant"
         times: {{smoke or 15}}
-        concurrency: {{smoke or 5}}
+        concurrency: 1 #{{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -572,7 +572,7 @@
       runner:
         type: "constant"
         times: {{smoke or 8}}
-        concurrency: {{smoke or 4}}
+        concurrency: 1 #{{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -650,7 +650,7 @@
       runner:
         type: "constant"
         times: {{smoke or 4}}
-        concurrency: {{smoke or 4}}
+        concurrency: 1 #{{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 2}}
@@ -671,7 +671,7 @@
       runner:
         type: "constant"
         times: {{smoke or 4}}
-        concurrency: {{smoke or 4}}
+        concurrency: 1 #{{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 2}}
@@ -684,50 +684,50 @@
         failure_rate:
           max: 0
 
-  VMTasks.boot_runcommand_delete:
-    -
-      args:
-        flavor:
-            name: "m1.tiny"
-        image:
-            name: {{image_name}}
-        command:
-          script_file: "~/.rally/extra/instance_dd_test.sh"
-          interpreter: "/bin/sh"
-        username: "cirros"
-      runner:
-        type: "constant"
-        times: {{smoke or 4}}
-        concurrency: {{smoke or 2}}
-      context:
-        users:
-          tenants: {{smoke or 2}}
-          users_per_tenant: {{smoke or 2}}
-        network: {}
-
-  VMTasks.boot_runcommand_delete_custom_image:
-    -
-      args:
-        command:
-          remote_path: "./dd_test.sh"
-        flavor:
-          name: "m1.tiny"
-        username: "cirros"
-      runner:
-        type: "constant"
-        times: 1
-        concurrency: 1
-      context:
-        image_command_customizer:
-          command:
-            local_path: "/home/jenkins/.rally/extra/install_benchmark.sh"
-            remote_path: "./install_benchmark.sh"
-          flavor:
-            name: "m1.tiny"
-          image:
-            name: {{image_name}}
-          username: "cirros"
-        users:
-          tenants: 1
-          users_per_tenant: 1
-        network: {}
+#  VMTasks.boot_runcommand_delete:
+#    -
+#      args:
+#        flavor:
+#            name: "m1.tiny"
+#        image:
+#            name: {{image_name}}
+#        command:
+#          script_file: "~/.rally/extra/instance_dd_test.sh"
+#          interpreter: "/bin/sh"
+#        username: "cirros"
+#      runner:
+#        type: "constant"
+#        times: {{smoke or 4}}
+#        concurrency: {{smoke or 2}}
+#      context:
+#        users:
+#          tenants: {{smoke or 2}}
+#          users_per_tenant: {{smoke or 2}}
+#        network: {}
+#
+#  VMTasks.boot_runcommand_delete_custom_image:
+#    -
+#      args:
+#        command:
+#          remote_path: "./dd_test.sh"
+#        flavor:
+#          name: "m1.tiny"
+#        username: "cirros"
+#      runner:
+#        type: "constant"
+#        times: 1
+#        concurrency: 1
+#      context:
+#        image_command_customizer:
+#          command:
+#            local_path: "/home/jenkins/.rally/extra/install_benchmark.sh"
+#            remote_path: "./install_benchmark.sh"
+#          flavor:
+#            name: "m1.tiny"
+#          image:
+#            name: {{image_name}}
+#          username: "cirros"
+#        users:
+#          tenants: 1
+#          users_per_tenant: 1
+#        network: {}
