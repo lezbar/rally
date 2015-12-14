@@ -1,0 +1,60 @@
+{% set image_name = "^CirrOS\s\S*$" %}
+{% set smoke = 0 %}
+
+---
+  VMTasks.boot_runcommand_delete:
+    -
+      args:
+        flavor:
+            name: "m1.tiny"
+        image:
+            name: {{image_name}}
+        command:
+            script_file: "/root/rally/rally-jobs/extra/ping_from_instance.sh"
+            interpreter: "/bin/sh"
+#          script_inline: "ping -c1 8.8.8.8"
+#          interpreter: "/bin/sh"
+        username: "cirros"
+        use_floating_ip: True
+        nics: [{"net-id": "ce0ee978-a7f4-4b12-8096-d48e09f35f5e"}]
+#        nics: [{"net-id": "5a71d1f7-f149-454f-a6e6-46c6d34eb378"}]
+        floating_network: "ext2-net"
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 5}}
+      context:
+        users:
+          tenants: {{smoke or 1}}
+          users_per_tenant: {{smoke or 1}}
+#        network: {}
+      sla:
+        failure_rate:
+          max: 10
+
+#  VMTasks.boot_runcommand_delete_custom_image:
+#    -
+#      args:
+#        command:
+#          remote_path: "./dd_test.sh"
+#        flavor:
+#          name: "m1.tiny"
+#        username: "cirros"
+#      runner:
+#        type: "constant"
+#        times: 1
+#        concurrency: 1
+#      context:
+#        image_command_customizer:
+#          command:
+#            local_path: "/home/jenkins/.rally/extra/install_benchmark_ping.sh"
+#            remote_path: "./install_benchmark_ping.sh"
+#          flavor:
+#            name: "m1.tiny"
+#          image:
+#            name: {{image_name}}
+#          username: "cirros"
+#        users:
+#          tenants: 1
+#          users_per_tenant: 1
+#        network: {}

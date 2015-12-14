@@ -40,9 +40,9 @@ class VMTasks(vm_utils.VMScenario):
     @validation.number("port", minval=1, maxval=65535, nullable=True,
                        integer_only=True)
     @validation.external_network_exists("floating_network")
-    @validation.required_services(consts.Service.NOVA, consts.Service.CINDER)
+    @validation.required_services(consts.Service.NOVA) #, consts.Service.CINDER)
     @validation.required_openstack(users=True)
-    @scenario.configure(context={"cleanup": ["nova", "cinder"],
+    @scenario.configure(context={"cleanup": ["nova"], # "cinder"],
                                  "keypair": {}, "allow_ssh": {}})
     def boot_runcommand_delete(self, image, flavor,
                                username,
@@ -126,7 +126,7 @@ class VMTasks(vm_utils.VMScenario):
                     "interpreter": ["NAME=Earth", "/bin/sh"]
                 }
 
-                # Run an inline script sending it to an uploaded remote
+                # Run an inline script sending it to a uploaded remote
                 # interpreter
                 command = {
                     "script_inline": "echo \"Hello, ${NAME:-World}\"",

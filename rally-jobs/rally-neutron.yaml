@@ -8,8 +8,8 @@
         network_create_args:
       runner:
         type: "constant"
-        times: {{smoke or 40}}
-        concurrency: 1 #{{smoke or 20}}
+        times: {{smoke or 8000}}
+        concurrency: {{smoke or 20}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -30,8 +30,8 @@
         subnets_per_network: 2
       runner:
         type: "constant"
-        times: {{smoke or 20 }}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000 }}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -50,8 +50,8 @@
         security_group_create_args: {}
       runner:
         type: "constant"
-        times: {{smoke or 20 }}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 200 }}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -69,8 +69,8 @@
         security_group_create_args: {}
       runner:
         type: "constant"
-        times: {{smoke or 20 }}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 200 }}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -89,8 +89,8 @@
         security_group_update_args: {}
       runner:
         type: "constant"
-        times: {{smoke or 20 }}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 200 }}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -102,25 +102,25 @@
         failure_rate:
           max: 20
 
-#  NeutronNetworks.create_and_list_floating_ips:
-#    -
-#      args:
-#        floating_network: "public"
-#        floating_ip_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 40}}
-#        concurrency: {{smoke or 20}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        quotas:
-#          neutron:
-#             floatingip: -1
-#      sla:
-#        failure_rate:
-#          max: 0
+  NeutronNetworks.create_and_list_floating_ips:
+    -
+      args:
+        floating_network: "ext2-net"
+        floating_ip_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 1000}}
+        concurrency: {{smoke or 20}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        quotas:
+          neutron:
+             floatingip: -1
+      sla:
+        failure_rate:
+          max: 0
 
   NeutronNetworks.create_and_list_routers:
     -
@@ -132,8 +132,8 @@
         router_create_args:
       runner:
         type: "constant"
-        times: {{smoke or 15}}
-        concurrency: 1 #{{smoke or 5}}
+        times: {{smoke or 3000}}
+        concurrency: {{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -155,8 +155,8 @@
         ports_per_network: 4
       runner:
         type: "constant"
-        times: {{smoke or 15}}
-        concurrency: 1 #{{smoke or 5}}
+        times: {{smoke or 3000}}
+        concurrency: {{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -171,207 +171,207 @@
         failure_rate:
           max: 20
 
-#  NeutronLoadbalancerV1.create_and_list_pools:
-#    -
-#      args:
-#        pool_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 3}}
-#          users_per_tenant: {{smoke or 2}}
-#        network: {}
-#        lbaas:
-#          pool: {}
-#          lbaas_version: 1
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_delete_pools:
-#    -
-#      args:
-#        pool_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 3}}
-#          users_per_tenant: {{smoke or 2}}
-#        network: {}
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_update_pools:
-#    -
-#      args:
-#        pool_create_args: {}
-#        pool_update_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 3}}
-#          users_per_tenant: {{smoke or 2}}
-#        network: {}
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_list_vips:
-#    -
-#      args:
-#        vip_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 4}}
-#        network: {}
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#            vip: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_delete_vips:
-#    -
-#      args:
-#        pool_create_args: {}
-#        vip_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        network: {}
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#            vip: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_update_vips:
-#    -
-#      args:
-#        vip_create_args: {}
-#        vip_update_args: {}
-#        pool_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        network: {}
-#        quotas:
-#          neutron:
-#            network: -1
-#            subnet: -1
-#            pool: -1
-#            vip: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_list_healthmonitors:
-#    -
-#      args:
-#        healthmonitor_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        quotas:
-#          neutron:
-#            health_monitor: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_delete_healthmonitors:
-#    -
-#      args:
-#        healthmonitor_create_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        quotas:
-#          neutron:
-#            health_monitor: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
-#  NeutronLoadbalancerV1.create_and_update_healthmonitors:
-#    -
-#      args:
-#        healthmonitor_create_args: {}
-#        healthmonitor_update_args:
-#          admin_state_up: False
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 20}}
-#        concurrency: {{smoke or 10}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        quotas:
-#          neutron:
-#            health_monitor: -1
-#      sla:
-#        failure_rate:
-#          max: 0
-#
+  NeutronLoadbalancerV1.create_and_list_pools:
+    -
+      args:
+        pool_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 3}}
+          users_per_tenant: {{smoke or 2}}
+        network: {}
+        lbaas:
+          pool: {}
+          lbaas_version: 1
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_delete_pools:
+    -
+      args:
+        pool_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 3}}
+          users_per_tenant: {{smoke or 2}}
+        network: {}
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_update_pools:
+    -
+      args:
+        pool_create_args: {}
+        pool_update_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 3}}
+          users_per_tenant: {{smoke or 2}}
+        network: {}
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_list_vips:
+    -
+      args:
+        vip_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 4}}
+        network: {}
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+            vip: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_delete_vips:
+    -
+      args:
+        pool_create_args: {}
+        vip_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        network: {}
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+            vip: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_update_vips:
+    -
+      args:
+        vip_create_args: {}
+        vip_update_args: {}
+        pool_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        network: {}
+        quotas:
+          neutron:
+            network: -1
+            subnet: -1
+            pool: -1
+            vip: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_list_healthmonitors:
+    -
+      args:
+        healthmonitor_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        quotas:
+          neutron:
+            health_monitor: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_delete_healthmonitors:
+    -
+      args:
+        healthmonitor_create_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        quotas:
+          neutron:
+            health_monitor: -1
+      sla:
+        failure_rate:
+          max: 0
+
+  NeutronLoadbalancerV1.create_and_update_healthmonitors:
+    -
+      args:
+        healthmonitor_create_args: {}
+        healthmonitor_update_args:
+          admin_state_up: False
+      runner:
+        type: "constant"
+        times: {{smoke or 200}}
+        concurrency: {{smoke or 10}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        quotas:
+          neutron:
+            health_monitor: -1
+      sla:
+        failure_rate:
+          max: 0
+
   NeutronNetworks.create_and_update_networks:
     -
       args:
@@ -381,8 +381,8 @@
             name: "_updated"
       runner:
         type: "constant"
-        times: {{smoke or 20}}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000}}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -406,8 +406,8 @@
             name: "_subnet_updated"
       runner:
         type: "constant"
-        times: {{smoke or 20}}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000}}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -433,8 +433,8 @@
             name: "_router_updated"
       runner:
         type: "constant"
-        times: {{smoke or 15}}
-        concurrency: 1 #{{smoke or 5}}
+        times: {{smoke or 3000}}
+        concurrency: {{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -461,8 +461,8 @@
             name: "_port_updated"
       runner:
         type: "constant"
-        times: {{smoke or 20}}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000}}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -481,8 +481,8 @@
         network_create_args: {}
       runner:
         type: "constant"
-        times: {{smoke or 20}}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000}}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -504,8 +504,8 @@
         subnets_per_network: 2
       runner:
         type: "constant"
-        times: {{smoke or 20}}
-        concurrency: 1 #{{smoke or 10}}
+        times: {{smoke or 4000}}
+        concurrency: {{smoke or 10}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -518,25 +518,25 @@
         failure_rate:
           max: 20
 
-#  NeutronNetworks.create_and_delete_floating_ips:
-#    -
-#      args:
-#        floating_network: "public"
-#        floating_ip_args: {}
-#      runner:
-#        type: "constant"
-#        times: {{smoke or 40}}
-#        concurrency: {{smoke or 20}}
-#      context:
-#        users:
-#          tenants: {{smoke or 5}}
-#          users_per_tenant: {{smoke or 2}}
-#        quotas:
-#          neutron:
-#             floatingip: -1
-#      sla:
-#        failure_rate:
-#          max: 0
+  NeutronNetworks.create_and_delete_floating_ips:
+    -
+      args:
+        floating_network: "ext2-net"
+        floating_ip_args: {}
+      runner:
+        type: "constant"
+        times: {{smoke or 1000}}
+        concurrency: {{smoke or 20}}
+      context:
+        users:
+          tenants: {{smoke or 5}}
+          users_per_tenant: {{smoke or 2}}
+        quotas:
+          neutron:
+             floatingip: -1
+      sla:
+        failure_rate:
+          max: 0
 
   NeutronNetworks.create_and_delete_routers:
     -
@@ -548,8 +548,8 @@
         router_create_args: {}
       runner:
         type: "constant"
-        times: {{smoke or 15}}
-        concurrency: 1 #{{smoke or 5}}
+        times: {{smoke or 3000}}
+        concurrency: {{smoke or 5}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -571,8 +571,8 @@
         ports_per_network: 10
       runner:
         type: "constant"
-        times: {{smoke or 8}}
-        concurrency: 1 #{{smoke or 4}}
+        times: {{smoke or 1600}}
+        concurrency: {{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 3}}
@@ -591,7 +591,7 @@
         max_quota: 1024
       runner:
         type: "constant"
-        times: {{smoke or 10}}
+        times: {{smoke or 1000}}
         concurrency: {{smoke or 2}}
       context:
         users:
@@ -608,10 +608,11 @@
             name: "m1.tiny"
         image:
             name: {{image_name}}
+        nics: [{"net-id": "5a71d1f7-f149-454f-a6e6-46c6d34eb378"}]
       runner:
         type: "constant"
-        times: 1
-        concurrency: 1
+        times: 2000
+        concurrency: 10
       context:
         users:
           tenants: 1
@@ -622,15 +623,16 @@
 
     -
       args:
-        auto_assign_nic: True
+        auto_assign_nic: False
         flavor:
             name: "m1.tiny"
         image:
             name: {{image_name}}
+        nics: [{"net-id": "5a71d1f7-f149-454f-a6e6-46c6d34eb378"}]
       runner:
         type: "constant"
-        times: 1
-        concurrency: 1
+        times: 2000
+        concurrency: 10
       context:
         users:
           tenants: 1
@@ -649,8 +651,8 @@
         rules_per_security_group: 5
       runner:
         type: "constant"
-        times: {{smoke or 4}}
-        concurrency: 1 #{{smoke or 4}}
+        times: {{smoke or 40}}
+        concurrency: {{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 2}}
@@ -670,8 +672,8 @@
         rules_per_security_group: 5
       runner:
         type: "constant"
-        times: {{smoke or 4}}
-        concurrency: 1 #{{smoke or 4}}
+        times: {{smoke or 40}}
+        concurrency: {{smoke or 4}}
       context:
         users:
           tenants: {{smoke or 2}}
