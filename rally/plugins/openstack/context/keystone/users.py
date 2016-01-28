@@ -135,8 +135,8 @@ class UserGenerator(UserContextMixin, context.Context):
             with logging.ExceptionLogger(
                     LOG, _("Unable to delete default security group")):
                 uclients = osclients.Clients(user["credential"])
-                sg = uclients.nova().security_groups.find(name="default")
-                clients.neutron().delete_security_group(sg.id)
+                sg_id=uclients.neutron().list_security_groups()['security_groups'][0]['id']
+                clients.neutron().delete_security_group(sg_id)
 
     def _remove_associated_networks(self):
         """Delete associated Nova networks from tenants."""

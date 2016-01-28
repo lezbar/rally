@@ -76,7 +76,7 @@ class Network(context.Context):
                 #                   for Neutron only.
                 network = net_wrapper.create_network(
                     tenant_id,
-                    add_router=True,
+                    add_router=False,
                     subnets_num=self.config["subnets_per_network"],
                     network_create_args=self.config["network_create_args"])
                 self.context["tenants"][tenant_id]["networks"].append(network)
